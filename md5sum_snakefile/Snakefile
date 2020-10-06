@@ -1,0 +1,21 @@
+data_filepaths=["test1/a.txt", "test2/b.txt"]
+
+rule all:
+  input:
+    "all_md5sums.txt"
+
+rule check_md5sum:
+  input:
+    lambda wildcards: wildcards.filename
+  output:
+    "{filename}.md5sum.txt"
+  shell:
+    "md5sum {input} > {output}"
+
+rule aggregate_md5sums:
+  input:
+    expand("{filename}.md5sum.txt", filename=data_filepaths)
+  output:
+    "all_md5sums.txt"
+  shell:
+    "cat {input} > {output}"
