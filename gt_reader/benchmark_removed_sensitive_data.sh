@@ -17,7 +17,17 @@ gcc -O3 test_read_vcf.c -o test_read_vcf_C -Wall
 /usr/bin/time ./test_read_vcf_C 2.vcf > 2.out.c.txt 2>>time.logging.c.txt
 /usr/bin/time ./test_read_vcf_C 3.vcf > 3.out.c.txt 2>>time.logging.c.txt
 
+# running and profiling python code on the three VCFs
+/usr/bin/time python test_read_vcf_cyvcf2.py 1.vcf > 1.out.python.txt 2>>time.logging.python.txt
+/usr/bin/time python test_read_vcf_cyvcf2.py 2.vcf > 2.out.python.txt 2>>time.logging.python.txt
+/usr/bin/time python test_read_vcf_cyvcf2.py 3.vcf > 3.out.python.txt 2>>time.logging.python.txt
+
 # ensuring all outputs are the same
 diff -qs 1.out.cpp.txt 1.out.c.txt
 diff -qs 2.out.cpp.txt 2.out.c.txt
 diff -qs 3.out.cpp.txt 3.out.c.txt
+
+# ensuring all outputs are the same
+diff -qs 1.out.cpp.txt 1.out.python.txt
+diff -qs 2.out.cpp.txt 2.out.python.txt
+diff -qs 3.out.cpp.txt 3.out.python.txt
