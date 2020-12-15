@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Combinacoes</title>
+</head>
+
+<script type="text/javascript">
+// from https://stackoverflow.com/a/19270021/5264075
+function getRandom(arr, n) {
+    var result = new Array(n),
+        len = arr.length,
+        taken = new Array(len);
+    if (n > len)
+        throw new RangeError("getRandom: more elements taken than available");
+    while (n--) {
+        var x = Math.floor(Math.random() * len);
+        result[n] = arr[x in taken ? taken[x] : x];
+        taken[x] = --len in taken ? taken[len] : len;
+    }
+    return result;
+}
+
+function gerar_jogos(){
+	numeros=document.getElementById("numeros").value;
+	numeros = numeros.trim().split(" ").map(x=>+x);
+	numeros = [...new Set(numeros)];
+	
+	numero_de_dezenas = parseInt(document.getElementById("numero_de_dezenas").value);
+	numero_de_jogos = parseInt(document.getElementById("numero_de_jogos").value);
+
+	jogos = new Set()
+	while (jogos.size < numero_de_jogos) {
+		jogo = getRandom(numeros, numero_de_dezenas);
+		jogo.sort(function(a, b) {
+  			return a - b;
+		}); // sort so that permutations are equal
+		jogo=jogo.toString(); //transforms to string so that is comparable
+		jogos.add(jogo);
+	}
+
+	jogos_as_str = "";
+	for (let jogo of jogos) {  
+		jogos_as_str += jogo + "\n";
+	}
+
+	document.getElementById("jogos").value = jogos_as_str;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+   gerar_jogos();
+}, false);
+
+</script>
+
+<body>
+
+Escolha os numeros <b>separados por espaco</b>:<br/>
+<textarea id="numeros" name="numeros" rows="4" cols="50">
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60
+</textarea>
+
+<br/><br/><br/>
+Escolha o numero de dezenas em cada jogo: <input type="text" id="numero_de_dezenas" name="numero_de_dezenas" value="6">
+
+<br/><br/><br/>
+Escolha o numero de jogos: <input type="text" id="numero_de_jogos" name="numero_de_jogos" value="10">
+
+<br/><br/><br/>
+<input type="submit" id="gerar_jogos" name="gerar_jogos" value="Gerar jogos" onclick="gerar_jogos()">
+
+<br/><br/><br/>
+Jogos:<br/>
+<textarea id="jogos" name="jogos" rows="30" cols="50"></textarea>
+</body>
+</html>
