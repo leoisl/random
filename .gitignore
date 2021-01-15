@@ -6,3 +6,5 @@ md5sum_snakefile/test1/a.txt.md5sum.txt
 md5sum_snakefile/test2/b.txt.md5sum.txt
 
 md5sum_snakefile/all_md5sums.txt
+
+memfd_test/memfd
